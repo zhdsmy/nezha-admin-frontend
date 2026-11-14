@@ -286,3 +286,122 @@ body,
 .zool-table tbody tr[data-state="selected"] > td {
     background: var(--accent);
 }
+
+/* Narrow screens: rows become cards with the key column and actions; tap a card to show the other columns. */
+@media (width < 640px) {
+    .zool-table {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+    }
+    .zool-table table,
+    .zool-table tbody {
+        display: block;
+    }
+    .zool-table thead {
+        display: none;
+    }
+    .zool-table tbody tr {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        column-gap: 0.625rem;
+        margin-bottom: 0.5rem;
+        padding: 0.5rem 0.625rem 0.5rem 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--card);
+        cursor: pointer;
+    }
+    .zool-table tbody tr[data-state="selected"] {
+        border-color: var(--ring);
+        background: var(--accent);
+    }
+    .zool-table tbody td {
+        display: none;
+        position: static !important;
+        width: auto !important;
+        min-width: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    .zool-table tbody :is(td[data-col="select"], td[data-col="actions"]) {
+        display: block;
+    }
+    .zool-table tbody td[data-col="actions"] button {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+    .zool-table tbody td[data-col="actions"] > div {
+        gap: 0.375rem;
+    }
+    /* the key column; tables without name/username/ip use their second column */
+    .zool-table tbody :is(td[data-col="name"], td[data-col="username"], td[data-col="ip"]),
+    .zool-table tbody tr:not(:has(> :is([data-col="name"], [data-col="username"], [data-col="ip"]))) > td[data-col]:nth-child(2) {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-weight: 500;
+        overflow-wrap: anywhere;
+    }
+    .zool-table tbody :is(td[data-col="name"], td[data-col="username"], td[data-col="ip"])::after,
+    .zool-table tbody tr:not(:has(> :is([data-col="name"], [data-col="username"], [data-col="ip"]))) > td[data-col]:nth-child(2)::after {
+        content: "";
+        flex: none;
+        width: 0.4rem;
+        height: 0.4rem;
+        margin-left: auto;
+        border-right: 1.5px solid var(--muted-foreground);
+        border-bottom: 1.5px solid var(--muted-foreground);
+        transform: rotate(45deg);
+        transition: transform 0.15s;
+    }
+    .zool-table tbody tr[data-open] > :is(td[data-col="name"], td[data-col="username"], td[data-col="ip"])::after,
+    .zool-table tbody tr[data-open]:not(:has(> :is([data-col="name"], [data-col="username"], [data-col="ip"]))) > td[data-col]:nth-child(2)::after {
+        transform: rotate(225deg);
+    }
+    /* expanded details, and every cell of untagged tables / loading rows */
+    .zool-table tbody tr[data-open] > td[data-col],
+    .zool-table tbody td:not([data-col]) {
+        display: flex;
+        grid-column: 1 / -1;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        min-height: 1.75rem;
+        text-align: right;
+    }
+    .zool-table tbody tr[data-open] > td[data-col] {
+        padding-top: 0.25rem !important;
+        border-top: 1px solid var(--border);
+    }
+    .zool-table tbody tr[data-open] > td[data-col][data-label]::before,
+    .zool-table tbody td:not([data-col])[data-label]::before {
+        content: attr(data-label);
+        flex: none;
+        color: var(--muted-foreground);
+        text-align: left;
+    }
+    .zool-table tbody td > * {
+        max-width: none;
+    }
+    .zool-table tbody tr[data-open] > td[data-col]:not([data-col="select"], [data-col="actions"]) button {
+        width: 2rem;
+        height: 2rem;
+    }
+    /* keep the summary row (select, key, actions) on top when expanded */
+    .zool-table.zool-table tbody tr[data-open] > :is(td[data-col="select"], td[data-col="actions"], td[data-col="name"], td[data-col="username"], td[data-col="ip"]) {
+        display: flex;
+        grid-column: auto;
+        grid-row: 1;
+        min-height: 0;
+        margin: 0;
+        padding: 0 !important;
+        border: 0;
+        text-align: left;
+    }
+    .zool-table.zool-table tbody tr[data-open] > :is(td[data-col="select"], td[data-col="actions"], td[data-col="name"], td[data-col="username"], td[data-col="ip"])::before {
+        content: none;
+    }
+}

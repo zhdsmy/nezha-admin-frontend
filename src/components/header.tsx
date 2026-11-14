@@ -1,15 +1,5 @@
 import { ModeToggle } from "@/components/mode-toggle"
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "@/components/ui/drawer"
-import {
     NavigationMenu,
     NavigationMenuItem,
     NavigationMenuLink,
@@ -19,8 +9,7 @@ import { useAuth } from "@/hooks/useAuth"
 import { useMainStore } from "@/hooks/useMainStore"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
 import { cn } from "@/lib/utils"
-import i18next from "i18next"
-import { LogOut, Settings, User2 } from "lucide-react"
+import { LogOut, Menu, Settings, User2, X } from "lucide-react"
 import { DateTime } from "luxon"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -38,18 +27,17 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
-import { IconButton } from "./xui/icon-button"
 import { NzNavigationMenuLink } from "./xui/navigation-menu"
 
 const pages = [
-    { href: "/dashboard", label: i18next.t("Server") },
-    { href: "/dashboard/service", label: i18next.t("Service") },
-    { href: "/dashboard/cron", label: i18next.t("Task") },
-    { href: "/dashboard/notification", label: i18next.t("Notification") },
-    { href: "/dashboard/ddns", label: i18next.t("DDNS") },
-    { href: "/dashboard/nat", label: i18next.t("NATT") },
-    { href: "/dashboard/server-group", label: i18next.t("Group") },
-    { href: "/dashboard/transfer", label: i18next.t("Transfer.Title") },
+    { href: "/dashboard", label: "Server" },
+    { href: "/dashboard/service", label: "Service" },
+    { href: "/dashboard/cron", label: "Task" },
+    { href: "/dashboard/notification", label: "Notification", also: "/dashboard/alert-rule" },
+    { href: "/dashboard/ddns", label: "DDNS" },
+    { href: "/dashboard/nat", label: "NATT" },
+    { href: "/dashboard/server-group", label: "Group", also: "/dashboard/notification-group" },
+    { href: "/dashboard/transfer", label: "Transfer.Title" },
 ]
 
 export default function Header() {
@@ -266,38 +254,42 @@ export default function Header() {
         <header className="flex dark:bg-black/40 bg-muted border-b-[1px] px-4 h-16">
             <div className="flex max-w-max flex-1 items-center justify-center gap-2">
                 {profile && (
-                    <Drawer open={open} onOpenChange={setOpen}>
-                        <DrawerTrigger aria-label="Toggle Menu" asChild>
-                            <IconButton icon="menu" variant="ghost" />
-                        </DrawerTrigger>
-                        <DrawerContent>
-                            <DrawerHeader className="text-left">
-                                <DrawerTitle>{t("NavigateTo")}</DrawerTitle>
-                                <DrawerDescription>
-                                    {t("SelectAPageToNavigateTo")}
-                                </DrawerDescription>
-                            </DrawerHeader>
-                            <div className="grid gap-1 px-4">
-                                {pages.slice(0).map((item, index) => (
-                                    <Link
-                                        key={index}
-                                        to={item.href ? item.href : "#"}
-                                        className="py-1 text-sm"
-                                        onClick={() => {
-                                            setOpen(false)
-                                        }}
+                    <DropdownMenu open={open} onOpenChange={setOpen}>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                aria-label={t("NavigateTo")}
+                                className="-ml-2"
+                            >
+                                {open ? <X className="size-5" /> : <Menu className="size-5" />}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start" sideOffset={6} className="w-52 p-1.5">
+                            {pages.map((item) => {
+                                const path = location.pathname.replace(/\/$/, "")
+                                const active = path === item.href || path === item.also
+                                return (
+                                    <DropdownMenuItem
+                                        key={item.href}
+                                        asChild
+                                        className={cn(
+                                            "cursor-pointer h-10 px-3 text-sm",
+                                            active &&
+                                                "bg-accent text-accent-foreground font-medium",
+                                        )}
                                     >
-                                        {item.label}
-                                    </Link>
-                                ))}
-                            </div>
-                            <DrawerFooter>
-                                <DrawerClose asChild>
-                                    <Button variant="outline">{t("Close")}</Button>
-                                </DrawerClose>
-                            </DrawerFooter>
-                        </DrawerContent>
-                    </Drawer>
+                                        <Link
+                                            to={item.href}
+                                            aria-current={active ? "page" : undefined}
+                                        >
+                                            {t(item.label)}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                )
+                            })}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 )}
             </div>
             <Link
