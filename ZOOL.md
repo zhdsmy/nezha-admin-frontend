@@ -8,7 +8,7 @@ Each build supports one backend version only. A tag's prefix names that version.
 
 | Tag | Upstream base | Backend |
 |---|---|---|
-| `v2.6.1-zool.1` | `v2.6.1` (034062a) | nezha v2.6.1 |
+| `v2.6.1-zool.1`, `v2.6.1-zool.2` | `v2.6.1` (034062a) | nezha v2.6.1 |
 
 The dashboard serves files from `/dashboard/admin-dist` (a read-only bind mount) instead of its embedded admin. The admin API and the SPA route list come from the backend. When a newer backend runs this build, pages can break or show wrong data, and there is no error at upgrade time.
 
