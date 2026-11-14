@@ -7,16 +7,15 @@ import {
 } from "@/components/ui/navigation-menu"
 import { useAuth } from "@/hooks/useAuth"
 import { useMainStore } from "@/hooks/useMainStore"
-import { useMediaQuery } from "@/hooks/useMediaQuery"
 import { cn } from "@/lib/utils"
-import { LogOut, Menu, Settings, User2, X } from "lucide-react"
+import { ChevronDown, LogOut, Settings, User2 } from "lucide-react"
 import { DateTime } from "luxon"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
+import { PageMenu, currentPage, useDesktopNav, usePath } from "./page-nav"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Button } from "./ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -29,17 +28,6 @@ import {
 } from "./ui/dropdown-menu"
 import { NzNavigationMenuLink } from "./xui/navigation-menu"
 
-const pages = [
-    { href: "/dashboard", label: "Server" },
-    { href: "/dashboard/service", label: "Service" },
-    { href: "/dashboard/cron", label: "Task" },
-    { href: "/dashboard/notification", label: "Notification", also: "/dashboard/alert-rule" },
-    { href: "/dashboard/ddns", label: "DDNS" },
-    { href: "/dashboard/nat", label: "NATT" },
-    { href: "/dashboard/server-group", label: "Group", also: "/dashboard/notification-group" },
-    { href: "/dashboard/transfer", label: "Transfer.Title" },
-]
-
 export default function Header() {
     const { t } = useTranslation()
     const { logout } = useAuth()
@@ -48,9 +36,18 @@ export default function Header() {
     // The settings page itself keeps administrator-only configuration protected.
 
     const location = useLocation()
-    const isDesktop = useMediaQuery("(min-width: 890px)")
+    const isDesktop = useDesktopNav()
+    const path = usePath()
+    const page = currentPage(path)
+    // pages outside the main menu (settings tabs, profile) show their own name
+    const label = page
+        ? t(page.label)
+        : path.startsWith("/dashboard/settings")
+          ? t("Settings")
+          : path === "/dashboard/profile"
+            ? t("Profile")
+            : t("nezha")
 
-    const [open, setOpen] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false)
 
     const navigate = useNavigate()
@@ -252,52 +249,30 @@ export default function Header() {
         </header>
     ) : (
         <header className="flex dark:bg-black/40 bg-muted border-b-[1px] px-4 h-16">
-            <div className="flex max-w-max flex-1 items-center justify-center gap-2">
-                {profile && (
-                    <DropdownMenu open={open} onOpenChange={setOpen}>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                aria-label={t("NavigateTo")}
-                                className="-ml-2"
-                            >
-                                {open ? <X className="size-5" /> : <Menu className="size-5" />}
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" sideOffset={6} className="w-52 p-1.5">
-                            {pages.map((item) => {
-                                const path = location.pathname.replace(/\/$/, "")
-                                const active = path === item.href || path === item.also
-                                return (
-                                    <DropdownMenuItem
-                                        key={item.href}
-                                        asChild
-                                        className={cn(
-                                            "cursor-pointer h-10 px-3 text-sm",
-                                            active &&
-                                                "bg-accent text-accent-foreground font-medium",
-                                        )}
-                                    >
-                                        <Link
-                                            to={item.href}
-                                            aria-current={active ? "page" : undefined}
-                                        >
-                                            {t(item.label)}
-                                        </Link>
-                                    </DropdownMenuItem>
-                                )
-                            })}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                )}
-            </div>
-            <Link
-                className="mx-2 my-2 inline-flex w-full items-center"
-                to={profile ? "/dashboard" : "#"}
-            >
-                <img className="h-7 mr-1" src="/dashboard/logo.svg" /> {t("nezha")}
-            </Link>
+            {profile ? (
+                <PageMenu>
+                    {(open) => (
+                        <button
+                            type="button"
+                            aria-label={t("NavigateTo")}
+                            className="-ml-1.5 my-3 inline-flex min-w-0 items-center gap-1.5 rounded-lg px-1.5 text-base font-semibold hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-ring"
+                        >
+                            <img className="h-7 shrink-0" src="/dashboard/logo.svg" alt="" />
+                            <span className="truncate">{label}</span>
+                            <ChevronDown
+                                className={cn(
+                                    "size-4 shrink-0 text-muted-foreground transition-transform",
+                                    open && "rotate-180",
+                                )}
+                            />
+                        </button>
+                    )}
+                </PageMenu>
+            ) : (
+                <Link className="mx-2 my-2 inline-flex items-center" to="#">
+                    <img className="h-7 mr-1" src="/dashboard/logo.svg" /> {t("nezha")}
+                </Link>
+            )}
             <div className="ml-auto flex items-center gap-1">
                 <a
                     href={"/"}

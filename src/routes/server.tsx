@@ -28,7 +28,6 @@ import {
 import { IconButton } from "@/components/xui/icon-button"
 import { useServer } from "@/hooks/useServer"
 import { selectableTableFeatures } from "@/lib/table"
-import { joinIP } from "@/lib/utils"
 import { ModelServerTaskResponse, ModelServer as Server } from "@/types"
 import { ColumnDef, flexRender, useTable } from "@tanstack/react-table"
 import { Check, Minus } from "lucide-react"
@@ -151,8 +150,12 @@ export default function ServerPage() {
             cell: ({ row }) => {
                 const s = row.original
                 return (
-                    <div className="max-w-24 whitespace-normal break-words">
-                        {joinIP(s.geoip?.ip)}
+                    <div className="min-w-36 max-w-48 break-all leading-snug">
+                        {[s.geoip?.ip?.ipv4_addr, s.geoip?.ip?.ipv6_addr]
+                            .filter(Boolean)
+                            .map((a) => (
+                                <div key={a}>{a}</div>
+                            ))}
                     </div>
                 )
             },
