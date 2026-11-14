@@ -31,6 +31,7 @@ import { selectableTableFeatures } from "@/lib/table"
 import { joinIP } from "@/lib/utils"
 import { ModelServerTaskResponse, ModelServer as Server } from "@/types"
 import { ColumnDef, flexRender, useTable } from "@tanstack/react-table"
+import { Check, Minus } from "lucide-react"
 import { useEffect, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { toast } from "sonner"
@@ -78,6 +79,15 @@ export default function ServerPage() {
             header: "ID",
             accessorKey: "id",
             accessorFn: (row) => `${row.id}(${row.display_index})`,
+            cell: ({ row }) => (
+                <span
+                    className="whitespace-nowrap"
+                    title={`${t("Weight")} ${row.original.display_index}`}
+                >
+                    {row.original.id}
+                    <span className="text-muted-foreground"> · {row.original.display_index}</span>
+                </span>
+            ),
         },
         {
             header: t("Name"),
@@ -85,7 +95,11 @@ export default function ServerPage() {
             accessorFn: (row) => row.name,
             cell: ({ row }) => {
                 const s = row.original
-                return <div className="max-w-24 whitespace-normal break-words">{s.name}</div>
+                return (
+                    <div className="min-w-24 max-w-40 sm:max-w-56 whitespace-normal break-words font-medium">
+                        {s.name}
+                    </div>
+                )
             },
         },
         {
@@ -132,7 +146,7 @@ export default function ServerPage() {
             },
         },
         {
-            id: "ip",
+            id: "geoip",
             header: "IP",
             cell: ({ row }) => {
                 const s = row.original
@@ -152,11 +166,13 @@ export default function ServerPage() {
             header: t("EnableDDNS"),
             accessorKey: "enableDDNS",
             accessorFn: (row) => row.enable_ddns ?? false,
+            cell: ({ row }) => <Flag on={!!row.original.enable_ddns} />,
         },
         {
             header: t("HideForGuest"),
             accessorKey: "hideForGuest",
             accessorFn: (row) => row.hide_for_guest ?? false,
+            cell: ({ row }) => <Flag on={!!row.original.hide_for_guest} />,
         },
         {
             id: "note",
@@ -281,14 +297,18 @@ export default function ServerPage() {
                     <InstallCommandsMenu className="shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] bg-blue-700 text-white hover:bg-blue-600 dark:hover:bg-blue-800 rounded-lg" />
                 </HeaderButtonGroup>
             </div>
-            <div className="rounded-md border overflow-x-auto">
-                <Table className="min-w-[960px]">
-                    <TableHeader className="sticky top-0 bg-background z-10">
+            <div>
+                <Table>
+                    <TableHeader className="sticky top-0 bg-card z-10">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id} className="text-sm">
+                                        <TableHead
+                                            key={header.id}
+                                            data-col={header.column.id}
+                                            className="text-sm"
+                                        >
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -315,7 +335,11 @@ export default function ServerPage() {
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="text-xsm">
+                                        <TableCell
+                                            key={cell.id}
+                                            data-col={cell.column.id}
+                                            className="text-xsm"
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext(),
@@ -337,3 +361,10 @@ export default function ServerPage() {
         </div>
     )
 }
+
+const Flag = ({ on }: { on: boolean }) =>
+    on ? (
+        <Check className="size-4 text-good" aria-label="true" />
+    ) : (
+        <Minus className="size-4 text-muted-foreground/60" aria-label="false" />
+    )

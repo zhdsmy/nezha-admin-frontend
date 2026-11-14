@@ -166,7 +166,7 @@ export default function DDNSPage() {
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} className="text-sm">
+                                    <TableHead key={header.id} data-col={header.column.id} className="text-sm">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -190,7 +190,7 @@ export default function DDNSPage() {
                         table.getRowModel().rows.map((row) => (
                             <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id} className="text-xsm">
+                                    <TableCell key={cell.id} data-col={cell.column.id} className="text-xsm">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

@@ -210,7 +210,7 @@ export const ServerConfigCard = ({ sid, menuItem = false, ...props }: ServerConf
                         </DialogHeader>
                     </div>
                 ) : (
-                    <ScrollArea className="max-h-[calc(100dvh-5rem)] p-3">
+                    <ScrollArea className="max-h-[calc(100dvh-1.5rem)] p-1 sm:max-h-[calc(100dvh-5rem)] sm:p-3">
                         <div className="items-center mx-1">
                             <DialogHeader>
                                 <DialogTitle>{t("EditServerConfig")}</DialogTitle>

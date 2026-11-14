@@ -93,7 +93,7 @@ export const NotificationGroupCard: React.FC<NotificationGroupCardProps> = ({ da
                 {data ? <IconButton variant="outline" icon="edit" /> : <IconButton icon="plus" />}
             </DialogTrigger>
             <DialogContent className="sm:max-w-xl">
-                <ScrollArea className="max-h-[calc(100dvh-5rem)] p-3">
+                <ScrollArea className="max-h-[calc(100dvh-1.5rem)] p-1 sm:max-h-[calc(100dvh-5rem)] sm:p-3">
                     <div className="items-center mx-1">
                         <DialogHeader>
                             <DialogTitle>

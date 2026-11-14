@@ -35,8 +35,9 @@ export const conv = {
             {} as Record<string, boolean>,
         )
     },
-    arrToStr: <T>(arr: T[]) => {
-        return arr.join(",")
+    // the API sends null for an empty list (e.g. a service's trigger tasks)
+    arrToStr: <T>(arr?: T[] | null) => {
+        return (arr ?? []).join(",")
     },
     strToArr: (str: string) => {
         return str.split(",").filter(Boolean) || []

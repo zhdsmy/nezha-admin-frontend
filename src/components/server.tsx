@@ -245,7 +245,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                 onInteractOutside={(e) => e.preventDefault()}
                 onEscapeKeyDown={(e) => e.preventDefault()}
             >
-                <ScrollArea className="max-h-[calc(100dvh-5rem)] p-3">
+                <ScrollArea className="max-h-[calc(100dvh-1.5rem)] p-1 sm:max-h-[calc(100dvh-5rem)] sm:p-3">
                     <div className="items-center mx-1">
                         <DialogHeader>
                             <DialogTitle>{t("EditServer")}</DialogTitle>
@@ -253,32 +253,87 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                         </DialogHeader>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 my-2">
-                                <FormField
-                                    control={form.control}
-                                    name="name"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>{t("Name")}</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="My Server" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="display_index"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>{t("Weight")}</FormLabel>
-                                            <FormControl>
-                                                <Input type="number" placeholder="0" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                <div className="grid grid-cols-[1fr_6.5rem] items-end gap-3">
+                                    <FormField
+                                        control={form.control}
+                                        name="name"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="block truncate">
+                                                    {t("Name")}
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="My Server" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="display_index"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel
+                                                    className="block truncate"
+                                                    title={t("Weight")}
+                                                >
+                                                    {t("Weight")}
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="number"
+                                                        placeholder="0"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <div className="flex flex-wrap gap-x-6 gap-y-2 py-1">
+                                    <FormField
+                                        control={form.control}
+                                        name="enable_ddns"
+                                        render={({ field }) => (
+                                            <FormItem className="flex items-center space-y-0">
+                                                <FormControl>
+                                                    <div className="flex items-center gap-2">
+                                                        <Checkbox
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
+                                                        />
+                                                        <Label className="text-sm">
+                                                            {t("EnableDDNS")}
+                                                        </Label>
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="hide_for_guest"
+                                        render={({ field }) => (
+                                            <FormItem className="flex items-center space-y-0">
+                                                <FormControl>
+                                                    <div className="flex items-center gap-2">
+                                                        <Checkbox
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
+                                                        />
+                                                        <Label className="text-sm">
+                                                            {t("HideForGuest")}
+                                                        </Label>
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
                                 {enableDDNS ? (
                                     <>
                                         <FormField
@@ -318,52 +373,16 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
 
                                 <FormField
                                     control={form.control}
-                                    name="enable_ddns"
-                                    render={({ field }) => (
-                                        <FormItem className="flex items-center space-x-2">
-                                            <FormControl>
-                                                <div className="flex items-center gap-2">
-                                                    <Checkbox
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                    />
-                                                    <Label className="text-sm">
-                                                        {t("EnableDDNS")}
-                                                    </Label>
-                                                </div>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="hide_for_guest"
-                                    render={({ field }) => (
-                                        <FormItem className="flex items-center space-x-2">
-                                            <FormControl>
-                                                <div className="flex items-center gap-2">
-                                                    <Checkbox
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                    />
-                                                    <Label className="text-sm">
-                                                        {t("HideForGuest")}
-                                                    </Label>
-                                                </div>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
                                     name="note"
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>{t("Private") + t("Note")}</FormLabel>
                                             <FormControl>
-                                                <Textarea className="resize-none" {...field} />
+                                                <Textarea
+                                                    className="resize-y min-h-14"
+                                                    rows={2}
+                                                    {...field}
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -427,7 +446,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                 className="resize-y"
                                                 value={publicNoteRaw}
                                                 onChange={(e) => setPublicNoteRaw(e.target.value)}
-                                                rows={10}
+                                                rows={6}
                                             />
                                         </div>
                                     )}
@@ -439,7 +458,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                 <div className="text-sm font-medium opacity-80">
                                                     {t("PublicNote.Billing")}
                                                 </div>
-                                                <div className="grid gap-3 sm:grid-cols-2">
+                                                <div className="grid grid-cols-2 gap-3">
                                                     <div className="space-y-1">
                                                         <Label className="text-xs">
                                                             {t("PublicNote.StartDate")}
@@ -448,7 +467,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                         <Button
                                                             type="button"
                                                             variant="outline"
-                                                            className="text-xs px-2 py-0 h-auto bg-gray-200 dark:bg-gray-700 ml-2"
+                                                            className="text-xs px-2 py-0 h-6 ml-2 border-0 bg-secondary"
                                                             onClick={() =>
                                                                 patchPublicNote(
                                                                     "billingDataMod.startDate",
@@ -523,14 +542,14 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                         )}
                                                     </div>
                                                     <div className="space-y-1">
-                                                        <div className="flex items-center gap-2">
+                                                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                                                             <Label className="text-xs">
                                                                 {t("PublicNote.EndDate")}
                                                             </Label>
                                                             <Button
                                                                 type="button"
                                                                 variant="outline"
-                                                                className="text-xs px-2 py-0 h-auto bg-gray-200 dark:bg-gray-700"
+                                                                className="text-xs px-2 py-0 h-6 border-0 bg-secondary"
                                                                 onClick={toggleEndNoExpiryLocal}
                                                             >
                                                                 {publicNoteObj.billingDataMod
@@ -543,7 +562,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                             <Button
                                                                 type="button"
                                                                 variant="outline"
-                                                                className="text-xs px-2 py-0 h-auto bg-gray-200 dark:bg-gray-700"
+                                                                className="text-xs px-2 py-0 h-6 border-0 bg-secondary"
                                                                 onClick={() =>
                                                                     patchPublicNote(
                                                                         "billingDataMod.endDate",
@@ -678,7 +697,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                             <Button
                                                                 type="button"
                                                                 variant="outline"
-                                                                className="text-xs px-2 py-0 h-auto bg-gray-200 dark:bg-gray-700"
+                                                                className="text-xs px-2 py-0 h-6 border-0 bg-secondary"
                                                                 onClick={() =>
                                                                     patchPublicNote(
                                                                         "billingDataMod.cycle",
@@ -724,7 +743,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                             </p>
                                                         )}
                                                     </div>
-                                                    <div className="space-y-1 sm:col-span-2">
+                                                    <div className="space-y-1 col-span-2">
                                                         <div className="flex items-center gap-2">
                                                             <Label className="text-xs">
                                                                 {t("PublicNote.Amount")}
@@ -732,7 +751,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                             <Button
                                                                 type="button"
                                                                 variant="outline"
-                                                                className="text-xs px-2 py-0 h-auto bg-gray-200 dark:bg-gray-700"
+                                                                className="text-xs px-2 py-0 h-6 border-0 bg-secondary"
                                                                 onClick={() =>
                                                                     patchPublicNote(
                                                                         "billingDataMod.amount",
@@ -745,7 +764,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                             <Button
                                                                 type="button"
                                                                 variant="outline"
-                                                                className="text-xs px-2 py-0 h-auto bg-gray-200 dark:bg-gray-700"
+                                                                className="text-xs px-2 py-0 h-6 border-0 bg-secondary"
                                                                 onClick={() =>
                                                                     patchPublicNote(
                                                                         "billingDataMod.amount",
@@ -776,7 +795,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                 <div className="text-sm font-medium opacity-80">
                                                     {t("PublicNote.Plan")}
                                                 </div>
-                                                <div className="grid gap-3 sm:grid-cols-2">
+                                                <div className="grid grid-cols-2 gap-3">
                                                     <div className="space-y-1">
                                                         <Label className="text-xs">
                                                             {t("PublicNote.Bandwidth")}
@@ -820,7 +839,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                             <Button
                                                                 type="button"
                                                                 variant="outline"
-                                                                className="text-xs px-2 py-0 h-auto bg-gray-200 dark:bg-gray-700"
+                                                                className="text-xs px-2 py-0 h-6 border-0 bg-secondary"
                                                                 onClick={() =>
                                                                     patchPublicNote(
                                                                         "planDataMod.trafficType",
@@ -864,6 +883,26 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                                 }
                                                             </p>
                                                         )}
+                                                    </div>
+                                                    <div className="space-y-1">
+                                                        <Label className="text-xs">
+                                                            {t("PublicNote.NetworkRoute")}
+                                                        </Label>
+                                                        <Input
+                                                            placeholder={t(
+                                                                "PublicNote.CommaSeparated",
+                                                            )}
+                                                            value={
+                                                                publicNoteObj.planDataMod
+                                                                    ?.networkRoute ?? ""
+                                                            }
+                                                            onChange={(e) =>
+                                                                patchPublicNote(
+                                                                    "planDataMod.networkRoute",
+                                                                    e.target.value,
+                                                                )
+                                                            }
+                                                        />
                                                     </div>
                                                     <div className="space-y-1">
                                                         <Label className="text-xs">
@@ -925,27 +964,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                             </p>
                                                         )}
                                                     </div>
-                                                    <div className="space-y-1">
-                                                        <Label className="text-xs">
-                                                            {t("PublicNote.NetworkRoute")}
-                                                        </Label>
-                                                        <Input
-                                                            placeholder={t(
-                                                                "PublicNote.CommaSeparated",
-                                                            )}
-                                                            value={
-                                                                publicNoteObj.planDataMod
-                                                                    ?.networkRoute ?? ""
-                                                            }
-                                                            onChange={(e) =>
-                                                                patchPublicNote(
-                                                                    "planDataMod.networkRoute",
-                                                                    e.target.value,
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <div className="space-y-1 sm:col-span-2">
+                                                    <div className="space-y-1 col-span-2">
                                                         <Label className="text-xs">
                                                             {t("PublicNote.Extra")}
                                                         </Label>

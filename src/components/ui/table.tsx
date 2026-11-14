@@ -3,7 +3,7 @@ import { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes, forwardRef } from "
 
 const Table = forwardRef<HTMLTableElement, HTMLAttributes<HTMLTableElement>>(
     ({ className, ...props }, ref) => (
-        <div className="relative w-full overflow-auto">
+        <div className="zool-table relative w-full overflow-auto rounded-lg border bg-card">
             <table
                 ref={ref}
                 className={cn("w-full caption-bottom text-sm", className)}
@@ -44,7 +44,7 @@ const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElem
         <tr
             ref={ref}
             className={cn(
-                "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+                "border-b",
                 className,
             )}
             {...props}
@@ -58,7 +58,7 @@ const TableHead = forwardRef<HTMLTableCellElement, ThHTMLAttributes<HTMLTableCel
         <th
             ref={ref}
             className={cn(
-                "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+                "h-10 px-3 text-left align-middle text-xs font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
                 className,
             )}
             {...props}
@@ -71,7 +71,7 @@ const TableCell = forwardRef<HTMLTableCellElement, TdHTMLAttributes<HTMLTableCel
     ({ className, ...props }, ref) => (
         <td
             ref={ref}
-            className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+            className={cn("px-3 py-2.5 align-middle tabular-nums [&:has([role=checkbox])]:pr-0", className)}
             {...props}
         />
     ),

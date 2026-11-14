@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter/wght.css";
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
@@ -8,88 +9,99 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 
-    --color-background: hsl(var(--background));
-    --color-foreground: hsl(var(--foreground));
-    --color-card: hsl(var(--card));
-    --color-card-foreground: hsl(var(--card-foreground));
-    --color-popover: hsl(var(--popover));
-    --color-popover-foreground: hsl(var(--popover-foreground));
-    --color-primary: hsl(var(--primary));
-    --color-primary-foreground: hsl(var(--primary-foreground));
-    --color-secondary: hsl(var(--secondary));
-    --color-secondary-foreground: hsl(var(--secondary-foreground));
-    --color-muted: hsl(var(--muted));
-    --color-muted-foreground: hsl(var(--muted-foreground));
-    --color-accent: hsl(var(--accent));
-    --color-accent-foreground: hsl(var(--accent-foreground));
-    --color-destructive: hsl(var(--destructive));
-    --color-destructive-foreground: hsl(var(--destructive-foreground));
-    --color-border: hsl(var(--border));
-    --color-input: hsl(var(--input));
-    --color-ring: hsl(var(--ring));
-    --color-chart-1: hsl(var(--chart-1));
-    --color-chart-2: hsl(var(--chart-2));
-    --color-chart-3: hsl(var(--chart-3));
-    --color-chart-4: hsl(var(--chart-4));
-    --color-chart-5: hsl(var(--chart-5));
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --font-sans: "Inter Variable", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --color-good: var(--good);
+    --color-warn: var(--warn);
 
     --text-xsm: 0.825rem;
     --text-xsm--line-height: 1.25rem;
 }
 
+/* ZOOL palette (zool-theme src/styles/app.css) */
 :root {
-    --radius: 0.5rem;
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --radius: 0.625rem;
+    --background: #f3f5f8;
+    --foreground: #0d1526;
+    --card: #ffffff;
+    --card-foreground: #0d1526;
+    --popover: #ffffff;
+    --popover-foreground: #0d1526;
+    --primary: #1849c6;
+    --primary-foreground: #ffffff;
+    --secondary: #e5ebf3;
+    --secondary-foreground: #0d1526;
+    --muted: #e8edf4;
+    --muted-foreground: #45546a;
+    --accent: #e3ecff;
+    --accent-foreground: #1643b8;
+    --destructive: #bf1b30;
+    --destructive-foreground: #ffffff;
+    --border: #d4dce8;
+    --input: #b5c2d4;
+    --ring: #1849c6;
+    --good: #0a7246;
+    --warn: #8f4b00;
+    --chart-1: #1849c6;
+    --chart-2: #0b877d;
+    --chart-3: #c86400;
+    --chart-4: #8e2de2;
+    --chart-5: #d6336c;
 }
 
 .dark {
-    --background: 0 0% 9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --background: #0a0f1a;
+    --foreground: #f0f4fa;
+    --card: #111827;
+    --card-foreground: #f0f4fa;
+    --popover: #111827;
+    --popover-foreground: #f0f4fa;
+    --primary: #4e86f7;
+    --primary-foreground: #070e1b;
+    --secondary: #1a263b;
+    --secondary-foreground: #f0f4fa;
+    --muted: #172133;
+    --muted-foreground: #97a8c2;
+    --accent: #142442;
+    --accent-foreground: #78a6ff;
+    --destructive: #c81e3a;
+    --destructive-foreground: #ffffff;
+    --border: #23314a;
+    --input: #354868;
+    --ring: #4e86f7;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --chart-1: #5b92ff;
+    --chart-2: #2dd4bf;
+    --chart-3: #fbbf24;
+    --chart-4: #e879f9;
+    --chart-5: #f472b6;
 }
 
 @layer base {
@@ -98,7 +110,11 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground font-sans antialiased;
+        font-synthesis: none;
+    }
+    .dark {
+        color-scheme: dark;
     }
 }
 
@@ -127,7 +143,7 @@ body,
     min-height: 360px;
     flex-direction: column;
     overflow: hidden;
-    border: 1px solid hsl(var(--border));
+    border: 1px solid var(--border);
     border-radius: var(--radius);
     background: #09090b;
 }
@@ -154,8 +170,8 @@ body,
     gap: 4px;
     overflow-x: auto;
     padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
-    border-top: 1px solid hsl(var(--border));
-    background: hsl(var(--background));
+    border-top: 1px solid var(--border);
+    background: var(--background);
     touch-action: pan-x;
     -webkit-overflow-scrolling: touch;
 }
@@ -167,11 +183,11 @@ body,
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    border: 1px solid hsl(var(--border));
+    border: 1px solid var(--border);
     border-radius: calc(var(--radius) - 2px);
-    background: hsl(var(--secondary));
+    background: var(--secondary);
     padding: 0 9px;
-    color: hsl(var(--secondary-foreground));
+    color: var(--secondary-foreground);
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 0.75rem;
     font-weight: 500;
@@ -182,8 +198,8 @@ body,
 .terminal-key:hover:not(:disabled),
 .terminal-key:focus-visible,
 .terminal-key.is-active {
-    border-color: hsl(var(--ring));
-    background: hsl(var(--accent));
+    border-color: var(--ring);
+    background: var(--accent);
     outline: none;
 }
 
@@ -234,4 +250,39 @@ body,
     .terminal-key-paste {
         min-width: 49px;
     }
+}
+
+/* Admin lists: the select column and the key column stay at the left edge,
+   actions stay at the right edge, so a wide table scrolls only its middle. */
+.zool-table th {
+    white-space: nowrap;
+}
+.zool-table :is(th, td)[data-col="select"] {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    width: 2.5rem;
+    min-width: 2.5rem;
+    background: var(--card);
+}
+.zool-table :is(th, td):is([data-col="name"], [data-col="username"], [data-col="ip"]) {
+    position: sticky;
+    left: 2.5rem;
+    z-index: 1;
+    background: var(--card);
+    box-shadow: inset -1px 0 var(--border);
+}
+.zool-table :is(th, td)[data-col="actions"] {
+    position: sticky;
+    right: 0;
+    z-index: 1;
+    width: 1%;
+    background: var(--card);
+    box-shadow: inset 1px 0 var(--border);
+}
+.zool-table tbody tr:hover > td {
+    background: color-mix(in srgb, var(--muted) 55%, var(--card));
+}
+.zool-table tbody tr[data-state="selected"] > td {
+    background: var(--accent);
 }
