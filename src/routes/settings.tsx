@@ -151,7 +151,10 @@ export default function SettingsPage() {
             <SettingsTab className="mt-6 mb-4 w-full" />
             <div>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 my-2">
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-2 my-2 max-w-3xl"
+                    >
                         <FormField
                             control={form.control}
                             name="site_name"

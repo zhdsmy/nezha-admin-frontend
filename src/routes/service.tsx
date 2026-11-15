@@ -1,6 +1,7 @@
 import { swrFetcher } from "@/api/api"
 import { deleteService } from "@/api/service"
 import { ActionButtonGroup } from "@/components/action-button-group"
+import { flagCell } from "@/components/flag"
 import { HeaderButtonGroup } from "@/components/header-button-group"
 import { ServiceCard } from "@/components/service"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -13,6 +14,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { selectableTableFeatures } from "@/lib/table"
+import { conv } from "@/lib/utils"
 import { ModelService as Service } from "@/types"
 import { serviceTypes } from "@/types"
 import { ColumnDef, flexRender, useTable } from "@tanstack/react-table"
@@ -60,7 +62,16 @@ export default function ServicePage() {
         {
             header: "ID",
             accessorKey: "id",
-            accessorFn: (row) => `${row.id}(${row.display_index ?? 0})`,
+            accessorFn: (row) => row.id,
+            cell: ({ row }) => (
+                <span className="whitespace-nowrap">
+                    {row.original.id}
+                    <span className="text-muted-foreground">
+                        {" "}
+                        · {row.original.display_index ?? 0}
+                    </span>
+                </span>
+            ),
         },
         {
             header: t("Name"),
@@ -68,7 +79,9 @@ export default function ServicePage() {
             accessorKey: "name",
             cell: ({ row }) => {
                 const s = row.original
-                return <div className="max-w-24 whitespace-normal break-words">{s.name}</div>
+                return (
+                    <div className="min-w-16 max-w-40 whitespace-normal break-words">{s.name}</div>
+                )
             },
         },
         {
@@ -77,7 +90,11 @@ export default function ServicePage() {
             accessorKey: "target",
             cell: ({ row }) => {
                 const s = row.original
-                return <div className="max-w-24 whitespace-normal break-words">{s.target}</div>
+                return (
+                    <div className="min-w-32 max-w-64 whitespace-normal [overflow-wrap:anywhere]">
+                        {s.target}
+                    </div>
+                )
             },
         },
         {
@@ -128,21 +145,24 @@ export default function ServicePage() {
             header: t("NotifierGroupID"),
             accessorKey: "ngroup",
             accessorFn: (row) => row.notification_group_id,
+            cell: ({ getValue }) =>
+                getValue<number>() || <span className="text-muted-foreground/60">—</span>,
         },
         {
             header: t("Trigger"),
             accessorKey: "triggerTask",
             accessorFn: (row) => row.enable_trigger_task ?? false,
+            cell: flagCell,
         },
         {
             header: t("TasksToTriggerOnAlert"),
             accessorKey: "failTriggerTasks",
-            accessorFn: (row) => row.fail_trigger_tasks,
+            accessorFn: (row) => conv.arrToStr(row.fail_trigger_tasks),
         },
         {
             header: t("TasksToTriggerAfterRecovery"),
             accessorKey: "recoverTriggerTasks",
-            accessorFn: (row) => row.recover_trigger_tasks,
+            accessorFn: (row) => conv.arrToStr(row.recover_trigger_tasks),
         },
         {
             id: "actions",
@@ -174,7 +194,7 @@ export default function ServicePage() {
     const selectedRows = table.getSelectedRowModel().rows
 
     return (
-        <div className="px-3 max-w-7xl mx-auto">
+        <div className="px-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-3 mt-6 mb-4">
                 <h1 className="text-3xl font-bold tracking-tight">{t("Service")}</h1>
                 <HeaderButtonGroup
@@ -195,7 +215,11 @@ export default function ServicePage() {
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} data-col={header.column.id} className="text-sm">
+                                    <TableHead
+                                        key={header.id}
+                                        data-col={header.column.id}
+                                        className="text-sm"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -219,7 +243,11 @@ export default function ServicePage() {
                         table.getRowModel().rows.map((row) => (
                             <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id} data-col={cell.column.id} className="text-xsm">
+                                    <TableCell
+                                        key={cell.id}
+                                        data-col={cell.column.id}
+                                        className="text-xsm"
+                                    >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

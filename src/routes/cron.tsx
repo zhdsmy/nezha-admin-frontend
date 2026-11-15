@@ -3,6 +3,7 @@ import { deleteCron, runCron } from "@/api/cron"
 import { ActionButtonGroup } from "@/components/action-button-group"
 import { CopyButton } from "@/components/copy-button"
 import { CronCard } from "@/components/cron"
+import { flagCell } from "@/components/flag"
 import { HeaderButtonGroup } from "@/components/header-button-group"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -99,6 +100,7 @@ export default function CronPage() {
             header: t("SendSuccessNotification"),
             accessorKey: "pushSuccessful",
             accessorFn: (row) => row.push_successful ?? false,
+            cell: flagCell,
         },
         {
             header: t("Coverage"),
@@ -155,6 +157,7 @@ export default function CronPage() {
             header: t("Result"),
             accessorKey: "lastResult",
             accessorFn: (row) => row.last_result ?? false,
+            cell: flagCell,
         },
         {
             id: "actions",
@@ -208,7 +211,7 @@ export default function CronPage() {
     const selectedRows = table.getSelectedRowModel().rows
 
     return (
-        <div className="px-3 max-w-7xl mx-auto">
+        <div className="px-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-3 mt-6 mb-4">
                 <h1 className="text-3xl font-bold tracking-tight">{t("Task")}</h1>
                 <HeaderButtonGroup
@@ -229,7 +232,11 @@ export default function CronPage() {
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} data-col={header.column.id} className="text-sm">
+                                    <TableHead
+                                        key={header.id}
+                                        data-col={header.column.id}
+                                        className="text-sm"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -253,7 +260,11 @@ export default function CronPage() {
                         table.getRowModel().rows.map((row) => (
                             <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id} data-col={cell.column.id} className="text-xsm">
+                                    <TableCell
+                                        key={cell.id}
+                                        data-col={cell.column.id}
+                                        className="text-xsm"
+                                    >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

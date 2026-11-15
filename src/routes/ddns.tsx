@@ -2,6 +2,7 @@ import { swrFetcher } from "@/api/api"
 import { deleteDDNSProfiles, getDDNSProviders } from "@/api/ddns"
 import { ActionButtonGroup } from "@/components/action-button-group"
 import { DDNSCard } from "@/components/ddns"
+import { flagCell } from "@/components/flag"
 import { HeaderButtonGroup } from "@/components/header-button-group"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -86,11 +87,13 @@ export default function DDNSPage() {
             header: "IPv4",
             accessorKey: "enableIPv4",
             accessorFn: (row) => row.enable_ipv4 ?? false,
+            cell: flagCell,
         },
         {
             header: "IPv6",
             accessorKey: "enableIPv6",
             accessorFn: (row) => row.enable_ipv6 ?? false,
+            cell: flagCell,
         },
         {
             header: t("Provider"),
@@ -166,7 +169,11 @@ export default function DDNSPage() {
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} data-col={header.column.id} className="text-sm">
+                                    <TableHead
+                                        key={header.id}
+                                        data-col={header.column.id}
+                                        className="text-sm"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -190,7 +197,11 @@ export default function DDNSPage() {
                         table.getRowModel().rows.map((row) => (
                             <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id} data-col={cell.column.id} className="text-xsm">
+                                    <TableCell
+                                        key={cell.id}
+                                        data-col={cell.column.id}
+                                        className="text-xsm"
+                                    >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

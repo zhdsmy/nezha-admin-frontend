@@ -3,6 +3,7 @@ import { swrFetcher } from "@/api/api"
 import { ActionButtonGroup } from "@/components/action-button-group"
 import { AlertRuleCard } from "@/components/alert-rule"
 import { CopyButton } from "@/components/copy-button"
+import { flagCell } from "@/components/flag"
 import { HeaderButtonGroup } from "@/components/header-button-group"
 import { NotificationTab } from "@/components/notification-tab"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -105,6 +106,7 @@ export default function AlertRulePage() {
             header: t("Enable"),
             accessorKey: "enable",
             accessorFn: (row) => row.enable,
+            cell: flagCell,
         },
         {
             id: "actions",
@@ -161,7 +163,11 @@ export default function AlertRulePage() {
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id} data-col={header.column.id} className="text-sm">
+                                    <TableHead
+                                        key={header.id}
+                                        data-col={header.column.id}
+                                        className="text-sm"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -185,7 +191,11 @@ export default function AlertRulePage() {
                         table.getRowModel().rows.map((row) => (
                             <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id} data-col={cell.column.id} className="text-xsm">
+                                    <TableCell
+                                        key={cell.id}
+                                        data-col={cell.column.id}
+                                        className="text-xsm"
+                                    >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}

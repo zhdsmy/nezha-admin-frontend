@@ -3,6 +3,7 @@ import { deleteServer, forceUpdateServer } from "@/api/server"
 import { ActionButtonGroup } from "@/components/action-button-group"
 import { BatchMoveServerIcon } from "@/components/batch-move-server-icon"
 import { CopyButton } from "@/components/copy-button"
+import { flagCell } from "@/components/flag"
 import { HeaderButtonGroup } from "@/components/header-button-group"
 import { InstallCommandsMenu } from "@/components/install-commands"
 import { NoteMenu } from "@/components/note-menu"
@@ -30,7 +31,6 @@ import { useServer } from "@/hooks/useServer"
 import { selectableTableFeatures } from "@/lib/table"
 import { ModelServerTaskResponse, ModelServer as Server } from "@/types"
 import { ColumnDef, flexRender, useTable } from "@tanstack/react-table"
-import { Check, Minus } from "lucide-react"
 import { useEffect, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { toast } from "sonner"
@@ -95,7 +95,7 @@ export default function ServerPage() {
             cell: ({ row }) => {
                 const s = row.original
                 return (
-                    <div className="min-w-24 max-w-40 sm:max-w-56 whitespace-normal break-words font-medium">
+                    <div className="min-w-32 max-w-40 sm:max-w-56 whitespace-normal break-words font-medium">
                         {s.name}
                     </div>
                 )
@@ -169,13 +169,13 @@ export default function ServerPage() {
             header: t("EnableDDNS"),
             accessorKey: "enableDDNS",
             accessorFn: (row) => row.enable_ddns ?? false,
-            cell: ({ row }) => <Flag on={!!row.original.enable_ddns} />,
+            cell: flagCell,
         },
         {
             header: t("HideForGuest"),
             accessorKey: "hideForGuest",
             accessorFn: (row) => row.hide_for_guest ?? false,
-            cell: ({ row }) => <Flag on={!!row.original.hide_for_guest} />,
+            cell: flagCell,
         },
         {
             id: "note",
@@ -245,7 +245,7 @@ export default function ServerPage() {
     const selectedRows = table.getSelectedRowModel().rows
 
     return (
-        <div className="px-3 max-w-7xl mx-auto">
+        <div className="px-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full gap-3 mt-6 mb-4">
                 <h1 className="text-3xl font-bold tracking-tight">{t("Server")}</h1>
                 <HeaderButtonGroup
@@ -293,11 +293,8 @@ export default function ServerPage() {
                         }}
                     />
                     <BatchMoveServerIcon serverIds={selectedRows.map((r) => r.original.id)} />
-                    <ServerConfigCardBatch
-                        sid={selectedRows.map((r) => r.original.id)}
-                        className="shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] bg-yellow-600 text-white hover:bg-yellow-500 dark:hover:bg-yellow-700 rounded-lg"
-                    />
-                    <InstallCommandsMenu className="shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] bg-blue-700 text-white hover:bg-blue-600 dark:hover:bg-blue-800 rounded-lg" />
+                    <ServerConfigCardBatch sid={selectedRows.map((r) => r.original.id)} />
+                    <InstallCommandsMenu className="rounded-lg" />
                 </HeaderButtonGroup>
             </div>
             <div>
@@ -364,10 +361,3 @@ export default function ServerPage() {
         </div>
     )
 }
-
-const Flag = ({ on }: { on: boolean }) =>
-    on ? (
-        <Check className="size-4 text-good" aria-label="true" />
-    ) : (
-        <Minus className="size-4 text-muted-foreground/60" aria-label="false" />
-    )
