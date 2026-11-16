@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+> **Archived / 已归档：** This fork (`zool` branch) has been merged into [**zhdsmy/nezha-zool-theme**](https://github.com/zhdsmy/nezha-zool-theme) (`apps/admin`), which combines the ZOOL public status frontend and reskinned Nezha admin panel in a single repository.
+> 本仓库已合并入 [**zhdsmy/nezha-zool-theme**](https://github.com/zhdsmy/nezha-zool-theme)（`apps/admin` 目录），后续更新请前往新仓库。
+
 # ZOOL admin frontend
 
 This fork restyles the Nezha admin panel to match the [ZOOL theme](https://github.com/zhdsmy/zool-theme). The work lives on the `zool` branch. The `main` branch follows upstream.
